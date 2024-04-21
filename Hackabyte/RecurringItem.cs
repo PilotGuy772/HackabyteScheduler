@@ -21,8 +21,14 @@ public class RecurringItem
         }
         
         //check if the day of the week applies
+        if (!DaysOfWeek.Contains(day.DayOfWeek)) return;
         
-        
-        
+        //Generate a block time and add it
+        BlockTime addEvent = Event;
+        int difference = (day - Event.StartTime).Days;
+        addEvent.StartTime = addEvent.StartTime.AddDays(difference);
+        addEvent.EndTime = addEvent.EndTime.AddDays(difference);
+
+        Schedule.ScheduleItems.Add(addEvent);
     }
 }
