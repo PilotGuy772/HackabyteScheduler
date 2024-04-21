@@ -39,10 +39,11 @@ public class UI
                         // {
                         //     break;
                         // }
-                        newAssignment.DueDate = DateTime.ParseExact(date, "MM/dd/yyyy", null);
+                        string[] dateArray = date.Split("/");
+                        newAssignment.DueDate = new DateTime(int.Parse(dateArray[2]), int.Parse(dateArray[0]), int.Parse(dateArray[1]));
                         Console.WriteLine("Enter time span of assignment in 30 minute increments in hh:mm");
                         string timeString = Console.ReadLine() ?? "";
-                        newAssignment.TimeEstimate = TimeSpan.ParseExact(timeString, "hh:mm", null);
+                        newAssignment.TimeEstimate = new TimeSpan(int.Parse(timeString.Split(":")[0]), int.Parse(timeString.Split(":")[1]), 0);
                         Assignment.Assignments.Add(newAssignment);
                         
                         break;
@@ -64,7 +65,7 @@ public class UI
                     break;
                 case 5:
                     Console.WriteLine("print");
-                    Assignment.Assignments.ForEach(item => Console.WriteLine($"{item.Name} Due {item.DueDate.Date} time {item.TimeEstimate.Minutes}"));
+                    Assignment.Assignments.ForEach(item => Console.WriteLine($"{item.Name} Due {item.DueDate.Date} time {item.TimeEstimate.TotalMinutes}"));
                     break;
                 case 6:
                     Console.WriteLine("Exiting...");
