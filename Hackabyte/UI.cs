@@ -108,7 +108,15 @@ public class UI
                 case 4:
                     Console.WriteLine("You selected Option 4.");
                     Console.WriteLine("These are your schedule items for today:");
-                    Console.WriteLine
+                    Schedule.RecurringItems.ForEach(item => item.Update(DateTime.Today));
+                    foreach (ScheduleItem item in Schedule.ScheduleItems.Where(item =>
+                                 item.StartTime.Date == DateTime.Now.Date))
+                    {
+                        Console.WriteLine($"Name: {item.Name}\n" +
+                                          $"    Start: {item.StartTime.Hour}:{item.StartTime.Minute}\n" +
+                                          $"    End: {item.EndTime.Hour}:{item.EndTime.Minute}\n" +
+                                          $"");
+                    }
                     break;
                 case 5:
                     Console.WriteLine("print");

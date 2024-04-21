@@ -9,6 +9,8 @@ public class RecurringItem
     public DateTime LastDay { get; set; } = new DateTime(3000, 12, 20);
     public BlockTime Event { get; set; }
 
+    private List<DateTime> AlreadyUpdated = new();
+
     /// <summary>
     /// Adds a BlockTime item to the list in Schedule.cs for the requested day according to the configured rules.
     /// </summary>
@@ -19,6 +21,8 @@ public class RecurringItem
         {
             return;
         }
+
+        if (AlreadyUpdated.Contains(day)) return;
         
         //check if the day of the week applies
         if (!DaysOfWeek.Contains(day.DayOfWeek)) return;
@@ -30,5 +34,6 @@ public class RecurringItem
         addEvent.EndTime = addEvent.EndTime.AddDays(difference);
 
         Schedule.ScheduleItems.Add(addEvent);
+        AlreadyUpdated.Add(day);
     }
 }
