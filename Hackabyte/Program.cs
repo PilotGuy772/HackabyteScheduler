@@ -6,5 +6,6 @@ class Program
     {
         Console.WriteLine("Hello, Bro!");
         Console.WriteLine("test");
+        UI.Interface();
     }
 }
