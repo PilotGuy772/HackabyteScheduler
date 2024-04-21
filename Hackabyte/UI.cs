@@ -11,8 +11,8 @@ public class UI
             Console.WriteLine("1. Assignment");
             Console.WriteLine("2. Schedule Item");
             Console.WriteLine("3. Option 3");
-            Console.WriteLine("4. Option 4");
-            Console.WriteLine("5. Print List");
+            Console.WriteLine("4. List Scheduled Items");
+            Console.WriteLine("5. Print Assignment List");
             Console.WriteLine("6. Exit");
             Console.Write("Enter your choice (1-6): ");
 
@@ -56,6 +56,49 @@ public class UI
                     }*/
                 case 2:
                     Console.WriteLine("You selected Option 2.");
+                    //add schedule items
+                    //takes name, start time, end time, whether it repeats, and, if it repeats, which days it repeats and when it stops repeating.
+                    BlockTime block = new();
+                    
+                    Console.WriteLine("Entry name:");
+                    block.Name = Console.ReadLine() ?? "";
+                    
+                    Console.WriteLine("Day of first occurence (MM/dd/yyyy):");
+                    string dayString = Console.ReadLine() ?? "";
+                    DateTime firstDay = new DateTime(int.Parse(dayString.Split("/")[2]), int.Parse(dayString.Split("/")[0]), int.Parse(dayString.Split("/")[1]), 0, 0, 0);
+                    
+                    Console.WriteLine("Daily start time (HH:mm):");
+                    string startTimeString = Console.ReadLine() ?? "";
+                    block.StartTime = firstDay + new TimeSpan(0, int.Parse(startTimeString.Split(":")[0]), int.Parse(startTimeString.Split(":")[1]), 0);
+                    
+                    Console.WriteLine("Daily end time (HH:mm):");
+                    string endTimeString = Console.ReadLine() ?? "";
+                    block.EndTime = firstDay + new TimeSpan(0, int.Parse(endTimeString.Split(":")[0]), int.Parse(endTimeString.Split(":")[1]), 0);
+
+                    Console.WriteLine("Does this event repeat one or more times per week? [y/N]");
+                    if (Console.ReadLine() != "y")
+                    {
+                        Schedule.ScheduleItems.Add(block);
+                        break;
+                    }
+
+                    RecurringItem rule = new();
+                    
+                    //this event repeats
+                    Console.WriteLine(
+                        "What days of the week does this event repeat? Answer in comma-seperated numbers 1-7 where 1 is Monday and 7 is Sunday.");
+                    List<DayOfWeek> days = new();
+                    foreach (string day in Console.ReadLine().Split(","))
+                    {
+                        days.Add((DayOfWeek)byte.Parse(day));
+                    }
+
+                    rule.DaysOfWeek = days.ToArray();
+
+                    rule.Event = block;
+                    
+                    Schedule.RecurringItems.Add(rule);
+                    
                     break;
                 case 3:
                     Console.WriteLine("You selected Option 3.");

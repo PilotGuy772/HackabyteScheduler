@@ -6,7 +6,7 @@ namespace Hackabyte;
 public class RecurringItem
 {
     public DayOfWeek[] DaysOfWeek { get; set; } = [];
-    public DateTime LastDay { get; set; }
+    public DateTime LastDay { get; set; } = new DateTime(3000, 12, 20);
     public BlockTime Event { get; set; }
 
     /// <summary>
