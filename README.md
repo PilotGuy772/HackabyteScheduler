@@ -1,4 +1,4 @@
-**ScheduleCraft**
+# **ScheduleCraft**
 
 ## Inspiration
 The idea of the hackathon was based on student issues. This would help students.
