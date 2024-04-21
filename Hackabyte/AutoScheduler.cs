@@ -26,6 +26,36 @@ public class AutoScheduler
         //iterate through assignments in order
         foreach (Assignment assignment in Assignment.Assignments)
         {
+            //how many thirty minute pieces?
+            int pieces = (int)(assignment.TimeEstimate.TotalMinutes / 30);
+            
+            //repeat through the period between today and the due date as many times as necessary
+            while (true)
+            {
+                //start by finding all free time in the period
+                //for every day in the period, call FindFreeTime for that day
+                //clear out the current contents of FreeTime to start
+                FreeTime = [];
+                for (int i = 0; i < (assignment.DueDate - DateTime.Now).Days; i++)
+                {
+                    FindFreeTime(DateTime.Now.AddDays(i));
+                }
+                
+                //now iterate through every period of free time and put one work period in each time group.
+                foreach (BlockTime freeTime in FreeTime)
+                {
+                    if (pieces == 0) break;
+                    Schedule.ScheduleItems.Add(new WorkTime() {Name = $"Work on {assignment.Name}", StartTime = freeTime.StartTime, EndTime = freeTime.EndTime});
+                    pieces--;
+                }
+                
+                //if pieces is zero, we are done. Move on to the next assignment.
+                if (pieces == 0) break;
+                
+                //otherwise, continue until there are no more pieces of work time.
+            }
+            
+            
             
         }
         
