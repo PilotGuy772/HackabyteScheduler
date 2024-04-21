@@ -34,26 +34,25 @@ public class UI
                     newAssignment.Name = Console.ReadLine() ?? "";
                     Console.WriteLine("Enter due date of assignment (in MM/dd/yyyy format):: ");
                     string date = Console.ReadLine() ?? "";
-                    try
                     {
                         // if (DateTime.ParseExact(date, "MM/dd/yyyy", null) < DateTime.Today)
                         // {
                         //     break;
                         // }
                         newAssignment.DueDate = DateTime.ParseExact(date, "MM/dd/yyyy", null);
-                        Console.WriteLine("Enter time span of assignment in 30 minute increments in hh:mm:ss :: ");
+                        Console.WriteLine("Enter time span of assignment in 30 minute increments in hh:mm");
                         string timeString = Console.ReadLine() ?? "";
-                        newAssignment.TimeEstimate = TimeSpan.ParseExact(timeString, "hh:mm:ss", null);
+                        newAssignment.TimeEstimate = TimeSpan.ParseExact(timeString, "hh:mm", null);
                         Assignment.Assignments.Add(newAssignment);
                         
                         break;
                     }
 
-                    catch (FormatException)
+                    /*catch (FormatException)
                     {
                         Console.WriteLine("Invalid date format");
                         continue;
-                    }
+                    }*/
                 case 2:
                     Console.WriteLine("You selected Option 2.");
                     break;
