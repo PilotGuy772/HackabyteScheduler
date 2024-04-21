@@ -10,7 +10,7 @@ public class UI
             Console.WriteLine("Menu:");
             Console.WriteLine("1. Assignment");
             Console.WriteLine("2. Schedule Item");
-            Console.WriteLine("3. Option 3");
+            Console.WriteLine("3. Plan Schedule");
             Console.WriteLine("4. List Scheduled Items");
             Console.WriteLine("5. Print Assignment List");
             Console.WriteLine("6. Exit");
@@ -102,9 +102,13 @@ public class UI
                     break;
                 case 3:
                     Console.WriteLine("You selected Option 3.");
+                    AutoScheduler.ScheduleAssignments();
+                    Console.WriteLine("Scheduling complete! Choose Option 4 to see your schedule.");
                     break;
                 case 4:
                     Console.WriteLine("You selected Option 4.");
+                    Console.WriteLine("These are your schedule items for today:");
+                    Console.WriteLine
                     break;
                 case 5:
                     Console.WriteLine("print");
