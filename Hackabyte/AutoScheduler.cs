@@ -35,7 +35,7 @@ public class AutoScheduler
                 //start by finding all free time in the period
                 //for every day in the period, call FindFreeTime for that day
                 //clear out the current contents of FreeTime to start
-                FreeTime = [];
+                FreeTime = new();
                 for (int i = 0; i < (assignment.DueDate - DateTime.Now).Days; i++)
                 {
                     FindFreeTime(DateTime.Now.AddDays(i));
@@ -64,6 +64,7 @@ public class AutoScheduler
 
     private static void FindFreeTime(DateTime day)
     {
+        //day = day.AddDays(1);
         /*
          * Getting Periods of Free Time
          * There needs to be a way to find periods of free time during the day based on where there are no block times.
@@ -87,7 +88,9 @@ public class AutoScheduler
         while (workingEnd < end)
         {
             // if there are no interfering times,
-            if (!Schedule.ScheduleItems.Any(item => item.StartTime > workingStart || item.EndTime < workingEnd))
+            //.Where(item => item.StartTime.Date == day.Date && item.EndTime.Date == day.Date)
+            if (Schedule.ScheduleItems.All(item => item.StartTime > workingEnd || item.EndTime < workingStart) && 
+                !Schedule.ScheduleItems.Any(item => item.StartTime < workingStart && item.EndTime > workingEnd))
             {
                 // add this free time to the list of times that are free
                 FreeTime.Add(new BlockTime() {Name = "Free Time", EndTime = workingEnd, StartTime = workingStart});

@@ -86,7 +86,7 @@ public class UI
                     
                     //this event repeats
                     Console.WriteLine(
-                        "What days of the week does this event repeat? Answer in comma-seperated numbers 1-7 where 1 is Monday and 7 is Sunday.");
+                        "What days of the week does this event repeat? Answer in comma-seperated numbers 0-6 where 0 is Sunday and 6 is Saturday.");
                     List<DayOfWeek> days = new();
                     foreach (string day in Console.ReadLine().Split(","))
                     {
@@ -107,19 +107,41 @@ public class UI
                     break;
                 case 4:
                     Console.WriteLine("You selected Option 4.");
-                    Console.WriteLine("These are your schedule items for today:");
-                    Schedule.RecurringItems.ForEach(item => item.Update(DateTime.Today));
-                    foreach (ScheduleItem item in Schedule.ScheduleItems.Where(item =>
-                                 item.StartTime.Date == DateTime.Now.Date))
+                    //Console.WriteLine("These are your schedule items for today:");
+                    
+                    //scroll thru schedule
+                    DateTime dateTime = DateTime.Now;
+                    while (true)
                     {
-                        Console.WriteLine($"Name: {item.Name}\n" +
-                                          $"    Start: {item.StartTime.Hour}:{item.StartTime.Minute}\n" +
-                                          $"    End: {item.EndTime.Hour}:{item.EndTime.Minute}\n" +
-                                          $"");
+                        Console.WriteLine($"These are your scheduled items for {dateTime.Month}/{dateTime.Day}/{dateTime.Year}: ");
+                        Schedule.RecurringItems.ForEach(item => item.Update(dateTime/*.Subtract(new TimeSpan(1, 0, 0, 0))*/));
+                        foreach (ScheduleItem item in Schedule.ScheduleItems.Where(item =>
+                                     item.StartTime.Date == dateTime.Date))
+                        {
+                            Console.WriteLine($"Name: {item.Name}\n" +
+                                              $"    Start: {item.StartTime.Hour}:{(item.StartTime.Minute)}\n" +
+                                              $"    End: {item.EndTime.Hour}:{(item.EndTime.Minute)}\n" +
+                                              $"");
+                        }
+                        
+                        Console.WriteLine("\nUse arrow keys to scroll forward and backwards in the days");
+                        ConsoleKey key = Console.ReadKey().Key;
+                        if (key == ConsoleKey.LeftArrow)
+                        {
+                            dateTime = dateTime.Subtract(new TimeSpan(1, 0, 0, 0));
+                        }
+                        else if (key == ConsoleKey.RightArrow)
+                        {
+                            dateTime = dateTime.Add(new TimeSpan(1, 0, 0, 0));
+                        }
+                        else if (key == ConsoleKey.Q)
+                        {
+                            break;
+                        }
                     }
                     break;
                 case 5:
-                    Console.WriteLine("print");
+                    Console.WriteLine("Printing Assignment List");
                     Assignment.Assignments.ForEach(item => Console.WriteLine($"{item.Name} Due {item.DueDate.Date} time {item.TimeEstimate.TotalMinutes}"));
                     break;
                 case 6:

@@ -17,15 +17,22 @@ public class RecurringItem
     /// <param name="day">The day to consider</param>
     public void Update(DateTime day)
     {
+        
         if (day > LastDay)
         {
+            Console.WriteLine("Ignoring a recurring item");
             return;
         }
 
-        if (AlreadyUpdated.Contains(day)) return;
+        if (AlreadyUpdated.Contains(day.Date))
+        {
+            Console.WriteLine("Skipped already checked date");
+            return;
+        }
         
         //check if the day of the week applies
         if (!DaysOfWeek.Contains(day.DayOfWeek)) return;
+        
         
         //Generate a block time and add it
         BlockTime addEvent = Event;
@@ -34,6 +41,6 @@ public class RecurringItem
         addEvent.EndTime = addEvent.EndTime.AddDays(difference);
 
         Schedule.ScheduleItems.Add(addEvent);
-        AlreadyUpdated.Add(day);
+        AlreadyUpdated.Add(day.Date);
     }
 }
